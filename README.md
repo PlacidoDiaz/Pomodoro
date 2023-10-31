@@ -1,4 +1,4 @@
-# Pomodoro 
+# Pomodoro 🍅
 
 Este es un simple contador Pomodoro que puede ser personalizado y utilizado para administrar tu tiempo de trabajo de acuerdo con la técnica Pomodoro.
 

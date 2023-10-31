@@ -171,6 +171,13 @@
             timerDisplay.style.fontSize = (currentSize * 0.8) + 'px'; // Reduce el tamaño de la fuente en un 20%
         }
     
+    // Pregunta antes de salir
+        window.addEventListener('beforeunload', function (e) {
+        var confirmationMessage = '¿Seguro que quieres salir? Los cambios no guardados se perderán.';
+        (e || window.event).returnValue = confirmationMessage; // Most browsers
+        return confirmationMessage; // Webkit, Safari, Chrome etc.
+    });
+    
     </script>
 </body>
 </html>

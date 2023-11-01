@@ -19,7 +19,7 @@ La [técnica Pomodoro](https://francescocirillo.com/pages/pomodoro-technique) es
 
 ## Capturas de pantalla
 
-Adjunta algunas capturas de pantalla que muestren el aspecto y la funcionalidad de tu contador Pomodoro. Por ejemplo:
+Aspecto y la funcionalidad del contador Pomodoro:
 
 ![image](https://github.com/PlacidoDiaz/Biblioteca_BBDD/assets/86500067/dba53fd0-8787-4eaa-8d77-3c85cd9b6b6e)
 

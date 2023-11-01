@@ -89,7 +89,7 @@
                 </a>
             </li>
             <li>
-                <a href="#" onclick="" class="nav-link py-3 border-bottom" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Customers">
+                <a href="#" onclick="endTimer()" class="nav-link py-3 border-bottom" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Customers">
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="" class="bi bi-skip-end-circle-fill" viewBox="0 0 16 16">
                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407L9.5 8.972V10.5a.5.5 0 0 0 1 0v-5a.5.5 0 0 0-1 0v1.528L6.79 5.093z"/>
                       </svg>
@@ -113,7 +113,7 @@
             <h3>Estudio</h3>
             <input type="number" id="estudio" name="estudio" min="1"/><button onclick="leeEstudio()">OK</button><br>
             <h3>Descanso</h3>
-            <input type="number" id="descanso" name="descanso" min="1"/>
+            <input type="number" id="descanso" name="descanso" min="1"/><button onclick="leeDescanso()">OK</button>
         </div>
 
         <div id="timer" style="font-size: 235.999px;">25:00</div>
@@ -122,34 +122,58 @@
 
     <script>
         let time = 25 * 60; // 25 minutos en segundos
-        let timerInterval;
-
+        let estudioTime = true; // Variable de estado para controlar el tiempo de estudio y descanso
+        let timerInterval = null;
+    
         function leeEstudio() {
             var x = document.getElementById("estudio").value;
             time = x * 60;
             updateTimer();
         }
-
-        function startTimer() {
-            timerInterval = setInterval(updateTimer, 1000);
+    
+        function leeDescanso() {
+            var x = document.getElementById("descanso").value;
+            time = x * 60;
+            updateTimer();
         }
-
+    
+        function startTimer() {
+            if (timerInterval === null) {
+                timerInterval = setInterval(updateTimer, 1000); // Configurar el temporizador solo si no existe uno
+            }
+        }
+    
         function stopTimer() {
             clearInterval(timerInterval);
+            timerInterval = null; // Restablecer el temporizador a nulo para que se pueda configurar nuevamente
         }
-
+        
+        function endTimer() {
+            time = 0;
+        }
+    
         function resetTimer() {
             stopTimer();
             time = 25 * 60;
             updateTimer();
         }
-
+    
+        function toggleTimer() {
+            if (estudioTime) {
+                time = document.getElementById("descanso").value * 60; // Cambia al tiempo de descanso
+            } else {
+                time = document.getElementById("estudio").value * 60; // Cambia al tiempo de estudio
+            }
+            estudioTime = !estudioTime; // Alterna la variable de estado
+            updateTimer();
+        }
+    
         function updateTimer() {
             const minutes = Math.floor(time / 60);
             const seconds = time % 60;
             const timerDisplay = document.getElementById("timer");
             timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-
+    
             if (time === 0) {
                 showNotification();
                 // Reproducir el sonido de la alarma
@@ -157,7 +181,7 @@
                 alarmAudio.play();
     
                 // Restablecer el temporizador
-                resetTimer();
+                toggleTimer();
             } else {
                 time--;
             }
@@ -173,7 +197,7 @@
             let currentSize = parseFloat(currentFontSize);
             timerDisplay.style.fontSize = (currentSize * 1.2) + 'px'; // Aumenta el tamaño de la fuente en un 20%
         }
-
+    
         function reducirLetra() {
             let timerDisplay = document.getElementById("timer");
             let currentFontSize = window.getComputedStyle(timerDisplay, null).getPropertyValue('font-size');
@@ -181,22 +205,22 @@
             timerDisplay.style.fontSize = (currentSize * 0.8) + 'px'; // Reduce el tamaño de la fuente en un 20%
         }
     
-    // Pregunta antes de salir
+        // Pregunta antes de salir
         window.addEventListener('beforeunload', function (e) {
-        var confirmationMessage = '¿Seguro que quieres salir? Los cambios no guardados se perderán.';
-        (e || window.event).returnValue = confirmationMessage; // Most browsers
-        return confirmationMessage; // Webkit, Safari, Chrome etc.
-    });
-     
-    function ocultar() {
-        var estudioDiv = document.getElementById("estudioDiv");
-        if (estudioDiv.style.display === "none") {
-            estudioDiv.style.display = "block"; // Si está oculto, mostrarlo
-        } else {
-            estudioDiv.style.display = "none"; // Si está visible, ocultarlo
+            var confirmationMessage = '¿Seguro que quieres salir? Los cambios no guardados se perderán.';
+            (e || window.event).returnValue = confirmationMessage; // Most browsers
+            return confirmationMessage; // Webkit, Safari, Chrome etc.
+        });
+    
+        function ocultar() {
+            var estudioDiv = document.getElementById("estudioDiv");
+            if (estudioDiv.style.display === "none") {
+                estudioDiv.style.display = "block"; // Si está oculto, mostrarlo
+            } else {
+                estudioDiv.style.display = "none"; // Si está visible, ocultarlo
+            }
         }
-    }
-     
     </script>
+    
 </body>
 </html>

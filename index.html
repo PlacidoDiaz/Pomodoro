@@ -116,36 +116,25 @@
             <input type="number" id="descanso" name="descanso" min="1"/><button onclick="leeDescanso()">OK</button>
         </div>
 
-        <div id="timer" style="font-size: 235.999px;">25:00</div>
+        <div id="timer" style="font-size: 235.999px;">30:00</div>
         
     </div>
 
     <script>
-        let time = 25 * 60; // 25 minutos en segundos
-        let estudioTime = true; // Variable de estado para controlar el tiempo de estudio y descanso
-        let timerInterval = null;
-    
-        function leeEstudio() {
-            var x = document.getElementById("estudio").value;
-            time = x * 60;
-            updateTimer();
-        }
-    
-        function leeDescanso() {
-            var x = document.getElementById("descanso").value;
-            time = x * 60;
-            updateTimer();
-        }
-    
+        let time = 30 * 60; // 30 minutos en segundos
+        let isRunning = false;
+        let timerInterval;
+
         function startTimer() {
-            if (timerInterval === null) {
-                timerInterval = setInterval(updateTimer, 1000); // Configurar el temporizador solo si no existe uno
+            if (!isRunning) {
+                isRunning = true;
+                timerInterval = setInterval(updateTimer, 1000);
             }
         }
-    
+
         function stopTimer() {
+            isRunning = false;
             clearInterval(timerInterval);
-            timerInterval = null; // Restablecer el temporizador a nulo para que se pueda configurar nuevamente
         }
         
         function endTimer() {
@@ -154,7 +143,7 @@
     
         function resetTimer() {
             stopTimer();
-            time = 25 * 60;
+            time = 30 * 60;
             updateTimer();
         }
     
@@ -173,18 +162,37 @@
             const seconds = time % 60;
             const timerDisplay = document.getElementById("timer");
             timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    
+
             if (time === 0) {
                 showNotification();
-                // Reproducir el sonido de la alarma
                 var alarmAudio = document.getElementById("alarm");
                 alarmAudio.play();
-    
-                // Restablecer el temporizador
-                toggleTimer();
+                stopTimer();
             } else {
                 time--;
             }
+        }
+
+        // Manejar el cambio de visibilidad para mantener el temporizador activo
+        document.addEventListener("visibilitychange", function() {
+            if (document.visibilityState === 'visible') {
+                isRunning = true;
+                startTimer();
+            } else {
+                isRunning = false;
+            }
+        });
+    
+        function leeEstudio() {
+            var x = document.getElementById("estudio").value;
+            time = x * 60;
+            updateTimer();
+        }
+    
+        function leeDescanso() {
+            var x = document.getElementById("descanso").value;
+            time = x * 60;
+            updateTimer();
         }
     
         function showNotification() {

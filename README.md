@@ -21,7 +21,7 @@ La [técnica Pomodoro](https://francescocirillo.com/pages/pomodoro-technique) es
 
 Aspecto y la funcionalidad del contador Pomodoro:
 
-![image](https://github.com/PlacidoDiaz/Biblioteca_BBDD/assets/86500067/dba53fd0-8787-4eaa-8d77-3c85cd9b6b6e)
+![image](https://github.com/PlacidoDiaz/Pomodoro/assets/86500067/b6a0d202-598b-4ffb-a5b4-8165ce6b78d4)
 
 ## Contribución
 
